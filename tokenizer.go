@@ -107,7 +107,7 @@ func nextToken(state *tokenizerState) (Token, error) {
 		if err != nil {
 			return nil, err
 		}
-		return functionOrConstantToken(state, identifier)
+		return functionOrConstantToken(identifier)
 	}
 	nextChar(state)
 	if c == '+' {
@@ -193,7 +193,7 @@ func scanNumber(state *tokenizerState) (float64, error) {
 	return number, nil
 }
 
-func functionOrConstantToken(state *tokenizerState, identifier string) (Token, error) {
+func functionOrConstantToken(identifier string) (Token, error) {
 	switch strings.ToUpper(identifier) {
 	case "ABS":
 		return FunctionToken{ABS}, nil
@@ -264,11 +264,4 @@ func nextChar(state *tokenizerState) rune {
 		return 0
 	}
 	return state.runes[state.idx]
-}
-
-func peekNextChar(state *tokenizerState) rune {
-	if state.idx >= len(state.runes)-1 {
-		return 0
-	}
-	return state.runes[state.idx+1]
 }
